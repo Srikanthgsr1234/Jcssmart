@@ -1,21 +1,22 @@
-// server.js
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const UserModel = require('./Models/Users'); // Correct import path
+const UserModel = require('./Models/Users'); // Ensure the path is correct
 const app = express();
-const port = 3001; // Change the port number
+const port = process.env.PORT || 3001; // Use the environment variable for port
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Blynk Auth Tokens
-const PLANT_WATERING_AUTH_TOKEN = 'ENPHpaD47D5EiuM1dSuPa7BXghc4XJKj';
-const GAS_TEMPERATURE_HUMIDITY_AUTH_TOKEN = 'w2hXVCcDbyZU4oJrsJ1G7WcYvKd3FUgQ';
+// Blynk Auth Tokens from environment variables
+const PLANT_WATERING_AUTH_TOKEN = process.env.PLANT_WATERING_AUTH_TOKEN;
+const GAS_TEMPERATURE_HUMIDITY_AUTH_TOKEN = process.env.GAS_TEMPERATURE_HUMIDITY_AUTH_TOKEN;
 
-mongoose.connect('mongodb+srv://Srikanth:1234567890@smarthome.vk07g3o.mongodb.net/Users', {
+// MongoDB connection using environment variable for URI
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -26,6 +27,7 @@ db.once('open', () => {
   console.log('Connected to MongoDB database');
 });
 
+// Login endpoint
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -45,6 +47,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Registration endpoint
 app.post('/register', async (req, res) => {
   try {
     const newUser = await UserModel.create(req.body);
@@ -55,7 +58,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Plant Watering System
+// Plant Watering System endpoints
 app.get('/api/moisture', async (req, res) => {
   try {
     const response = await axios.get(`http://blynk.cloud/external/api/get?token=${PLANT_WATERING_AUTH_TOKEN}&V0`);
@@ -79,7 +82,7 @@ app.post('/api/water', async (req, res) => {
   }
 });
 
-// Gas, Temperature, and Humidity Monitoring
+// Gas, Temperature, and Humidity Monitoring endpoints
 app.get('/api/gas', async (req, res) => {
   try {
     const response = await axios.get(`http://blynk.cloud/external/api/get?token=${GAS_TEMPERATURE_HUMIDITY_AUTH_TOKEN}&V2`);
@@ -110,6 +113,7 @@ app.get('/api/humidity', async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
