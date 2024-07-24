@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -53,9 +54,9 @@ const Login = ({ onLogin }) => { // Receive onLogin function prop
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Link to="/options" className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+          <button type="submit" className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
             Login
-          </Link>
+          </button>
         </form>
         <p className="mt-4">Create New Account?</p>
         <Link to="/signup" className="block w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mt-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-xl text-center">

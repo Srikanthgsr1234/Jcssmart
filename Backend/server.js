@@ -15,7 +15,7 @@ app.use(express.json());
 const PLANT_WATERING_AUTH_TOKEN = 'ENPHpaD47D5EiuM1dSuPa7BXghc4XJKj';
 const GAS_TEMPERATURE_HUMIDITY_AUTH_TOKEN = 'w2hXVCcDbyZU4oJrsJ1G7WcYvKd3FUgQ';
 
-mongoose.connect('mongodb://localhost:27017/Users', {
+mongoose.connect('mongodb+srv://Srikanth:1234567890@smarthome.vk07g3o.mongodb.net/Users', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
